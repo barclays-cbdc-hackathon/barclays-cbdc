@@ -15,19 +15,19 @@ This app is a skeleton corda 5 cordapp. The app has a TemplateState, a TemplateS
 
 Corda 5 re-engineering the test development experience, utilizing the dockers for test deployment. we need to follow a couple of steps to test deploy the app. 
 ```
-#Build the projects.
+#1 Build the projects.
 ./gradlew clean build
 
-#Create the cpb file from the compiled cpk files in both contracts and workflows.
+#2 Create the cpb file from the compiled cpk files in both contracts and workflows.
 cordapp-builder create --cpk contracts/build/libs/corda5-template-contracts-1.0-SNAPSHOT-cordapp.cpk --cpk workflows/build/libs/corda5-template-workflows-1.0-SNAPSHOT-cordapp.cpk -o template.cpb
 
-#Creating the docker compose yaml file.
+#3 Creating the docker compose yaml file.
 corda-cli network deploy -n template-network -f c5cordapp-template.yaml -t 5.0.0-devpreview-rc03 > docker-compose.yaml
 
-#Configure the mock network
+#4 Configure the mock network
 coroa-cli network config docker-compose template-network
 
-#Starte docker containers.
+#5 Starte docker containers.
 docker-compose -f docker-compose.yaml up -d
     .
     .
@@ -35,9 +35,12 @@ docker-compose -f docker-compose.yaml up -d
     . Open a new terminal and run: docker-compose -f docker-compose.yaml logs -f 
     . to look at the log of the docker, and wait for the Corda logo to populate. 
     
-#Install the cpb file into the network.
+#6 Install the cpb file into the network.
 corda-cli package install -n template-network template.cpb
 ```
+I had combined step 1 to 5 into an shell script called run.sh, you can simply call `sh ./run.sh` in your terminal and that will sequentially run step 1 to 5. 
+
+
 You can always look at the status of the network by the command: 
 ```
 corda-cli network status -n template-network
