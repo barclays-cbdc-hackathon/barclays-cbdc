@@ -1,6 +1,6 @@
-#Corda5 Cordapp Template 
+# Corda5 Cordapp Template 
 
-##Environment Requirements: 
+## Environment Requirements: 
 1. Download and install Java 11
 2. Acquire R3 private engineering artifact access & Docker repository artifacts access 
 3. Download and install `cordapp-builder` (Current version: 5.0.0-DevPreview-RC03)
@@ -8,10 +8,10 @@
 
 Step 2 - 4 can find detail instructions at [here](https://engineering.r3.com/product-areas/corda-platform/blt/docs/setting-up-local-corda5-dev-network/setting-up-corda5-network/)
 
-##App Functionalities 
+## App Functionalities 
 This app is a skeleton corda 5 cordapp. The app has a TemplateState, a TemplateStateContract, and a TemplateFlow. The flow will send a p2p transaction that carries the TemplateState to the target party. The TemplateState always carries a Hello-World String. 
 
-##How to run the template
+## How to run the template
 
 Corda 5 re-engineering the test development experience, utilizing the dockers for test deployment. we need to follow a couple of steps to test deploy the app. 
 ```
@@ -48,7 +48,7 @@ corda-cli network terminate -n template-network -ry
 ```
 Thus far, your app is successfully running on a corda 5 test deployment network. 
 
-##Interact with the app 
+## Interact with the app 
 Open a browser and go to `https://localhost:<port>/api/v1/swagger`
 
 For this app, the ports are: 
