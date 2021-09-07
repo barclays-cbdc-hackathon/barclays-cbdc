@@ -25,7 +25,7 @@ cordapp-builder create --cpk contracts/build/libs/corda5-template-contracts-1.0-
 corda-cli network deploy -n template-network -f c5cordapp-template.yaml -t 5.0.0-devpreview-rc03 > docker-compose.yaml
 
 #4 Configure the mock network
-coroa-cli network config docker-compose template-network
+corda-cli network config docker-compose template-network
 
 #5 Starte docker containers.
 docker-compose -f docker-compose.yaml up -d
