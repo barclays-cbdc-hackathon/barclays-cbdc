@@ -6,7 +6,7 @@
 3. Download and install `cordapp-builder` (Current version: 5.0.0-DevPreview-RC03)
 4. Download and install `corda-cli` (Current version: 1.0.0-DevPreview-RC04)
 
-Step 2 - 4 can find detail instructions at [here](https://engineering.r3.com/product-areas/corda-platform/blt/docs/setting-up-local-corda5-dev-network/setting-up-corda5-network/)
+Step 2 - 4 can find detail instructions at [here](https://engineering.r3.com/product-areas/corda-platform/blt/c5dp1/setting-up-local-corda5-dev-network/setting-up-corda5-network/)
 
 ## App Functionalities 
 This app is a skeleton corda 5 cordapp. The app has a TemplateState, a TemplateStateContract, and a TemplateFlow. The flow will send a p2p transaction that carries the TemplateState to the target party. The TemplateState always carries a Hello-World String. 
