@@ -2,11 +2,10 @@
 
 ## Environment Requirements: 
 1. Download and install Java 11
-2. Acquire R3 private engineering artifact access & Docker repository artifacts access 
-3. Download and install `cordapp-builder` (Current version: 5.0.0-DevPreview-RC03)
-4. Download and install `corda-cli` (Current version: 1.0.0-DevPreview-RC04)
+2. Download and install `cordapp-builder` 
+3. Download and install `corda-cli` 
 
-Step 2 - 4 can find detail instructions at [here](https://engineering.r3.com/product-areas/corda-platform/blt/docs/setting-up-local-corda5-dev-network/setting-up-corda5-network/)
+Step 2 - 3 can find detail instructions at [here](https://docs.r3.com/en/platform/corda/5.0-dev-preview-1/getting-started/overview.html)
 
 ## App Functionalities 
 This app is a skeleton corda 5 cordapp. The app has a TemplateState, a TemplateStateContract, and a TemplateFlow. The flow will send a p2p transaction that carries the TemplateState to the target party. The TemplateState always carries a Hello-World String. 
@@ -21,24 +20,19 @@ Corda 5 re-engineering the test development experience, utilizing the dockers fo
 #2 Create the cpb file from the compiled cpk files in both contracts and workflows.
 cordapp-builder create --cpk contracts/build/libs/corda5-template-contracts-1.0-SNAPSHOT-cordapp.cpk --cpk workflows/build/libs/corda5-template-workflows-1.0-SNAPSHOT-cordapp.cpk -o template.cpb
 
-#3 Creating the docker compose yaml file.
-corda-cli network deploy -n template-network -f c5cordapp-template.yaml -t 5.0.0-devpreview-rc03 > docker-compose.yaml
-
-#4 Configure the mock network
+#3 Configure the network.
 corda-cli network config docker-compose template-network
 
-#5 Starte docker containers.
-docker-compose -f docker-compose.yaml up -d
+#4 Creating docker compose yaml file and starting docker containers.
+corda-cli network deploy -n template-network -f c5cordapp-template.yaml | docker-compose -f - up -d
     .
-    .
-    . This step will take roughly a mintute to complete.
+    . This step will take a few mintues to complete, if you are wondering what is running behind the scene
     . Open a new terminal and run: docker-compose -f docker-compose.yaml logs -f 
-    . to look at the log of the docker, and wait for the Corda logo to populate. 
     
-#6 Install the cpb file into the network.
+#5 Install the cpb file into the network.
 corda-cli package install -n template-network template.cpb
 ```
-I had combined step 1 to 5 into an shell script called run.sh, you can simply call `sh ./run.sh` in your terminal and that will sequentially run step 1 to 5. 
+I had combined all the steps into a shell script called run.sh, you can simply call `sh ./run.sh` in your terminal and that will sequentially run step 1 to 5. 
 
 
 You can always look at the status of the network by the command: 
