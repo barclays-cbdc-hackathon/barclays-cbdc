@@ -1,65 +1,82 @@
 package net.corda.c5template.flows
 
+import com.nhaarman.mockito_kotlin.*
+import net.corda.c5template.contracts.TemplateContract
+import net.corda.c5template.states.TemplateState
+import net.corda.systemflows.CollectSignaturesFlow
+import net.corda.systemflows.FinalityFlow
+import net.corda.testing.flow.utils.flowTest
+import net.corda.v5.application.flows.RpcStartFlowRequestParameters
+import net.corda.v5.application.identity.CordaX500Name
+import net.corda.v5.application.services.json.parseJson
+import net.corda.v5.ledger.contracts.Command
+import net.corda.v5.ledger.contracts.CommandData
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.SoftAssertions.assertSoftly
+import org.junit.jupiter.api.Test
+
 class ExampleUnitTest {
 
-//    @Test
-//    fun `flow signs state`() {
-//        flowTest<LaunchProbeFlow> {
-//
-//            // NOTE: this probably should be set up in flowTest
-//            val marsX500 = CordaX500Name.parse("O=Mars, L=FIFTH, C=GB, OU=planet")
-//
-//            val inputParams = "{\"message\":\"Hey Mars\", \"planetaryOnly\":\"true\", \"target\":\"${marsX500}\"}"
-//            createFlow { LaunchProbeFlow(RpcStartFlowRequestParameters(inputParams)) }
-//
-//            doReturn(marsX500)
-//                .whenever(otherSide)
-//                .name
-//            doReturn(otherSide)
-//                .whenever(flow.identityService)
-//                .partyFromName(marsX500)
-//
-//            doReturn(signedTransactionMock)
-//                .whenever(flow.flowEngine)
-//                .subFlow(any<CollectSignaturesFlow>())
-//
-//            doReturn(signedTransactionMock)
-//                .whenever(flow.flowEngine)
-//                .subFlow(any<FinalityFlow>())
-//
-//            doReturn(
-//                mapOf(
-//                    "message" to "Hey Mars",
-//                    "planetaryOnly" to "true",
-//                    "target" to otherSide.name.toString()
-//                )
-//            )
-//                .whenever(flow.jsonMarshallingService)
-//                .parseJson<Map<String, String>>(inputParams)
-//
-//            flow.call()
-//
-//            // verify notary is set
-//            verify(transactionBuilderMock).setNotary(notary)
-//
-//            // verify the correct output state is created
-//            argumentCaptor<ProbeState>().apply {
-//                verify(transactionBuilderMock).addOutputState(capture(), eq(ProbeContract.ID))
-//                assertSoftly {
-//                    it.assertThat(firstValue.launcher).isEqualTo(ourIdentity)
-//                    it.assertThat(firstValue.target).isEqualTo(otherSide)
-//                    it.assertThat(firstValue.message).isEqualTo("Hey Mars")
-//                    it.assertThat(firstValue.planetaryOnly).isEqualTo(true)
-//                }
-//            }
-//
-//            // verify command is added
-//            argumentCaptor<Command<CommandData>>().apply {
-//                verify(transactionBuilderMock).addCommand(capture())
-//                assertThat(firstValue.value).isInstanceOf(ProbeContract.Commands.Create::class.java)
-//                assertThat(firstValue.signers).contains(ourIdentity.owningKey)
-//                assertThat(firstValue.signers).contains(otherSide.owningKey)
-//            }
-//        }
-//    }
+    @Test
+    fun `flow signs state`() {
+        flowTest<TemplateFlow> {
+
+            // NOTE: this probably should be set up in flowTest
+            val mockNode = CordaX500Name.parse("O=MockNode, L=London, C=GB, OU=Template")
+
+            /*The inputParams does not carry actually purpose when running the test.
+             *It is there only to help the flow execute.
+             *All of the returned value is populated with the doReturn() methods */
+            val inputParams = "{\"msg\": \"Hello-World\", \"receiver\": \"${mockNode}\"}"
+            createFlow { TemplateFlow(RpcStartFlowRequestParameters(inputParams)) }
+
+            //Set the return value of the flow
+            doReturn(mockNode)
+                .whenever(otherSide)
+                .name
+            doReturn(otherSide)
+                .whenever(flow.identityService)
+                .partyFromName(mockNode)
+
+            doReturn(signedTransactionMock)
+                .whenever(flow.flowEngine)
+                .subFlow(any<CollectSignaturesFlow>())
+
+            doReturn(signedTransactionMock)
+                .whenever(flow.flowEngine)
+                .subFlow(any<FinalityFlow>())
+
+            doReturn(
+                    mapOf(
+                            "msg" to "Hello-World",
+                            "receiver" to otherSide.name.toString()
+                    )
+            )
+                .whenever(flow.jsonMarshallingService)
+                .parseJson<Map<String, String>>(inputParams)
+
+            flow.call()
+
+            // verify notary is set
+            verify(transactionBuilderMock).setNotary(notary)
+
+            // verify the correct output state is created
+            argumentCaptor<TemplateState>().apply {
+                verify(transactionBuilderMock).addOutputState(capture(), eq(TemplateContract.ID))
+                assertSoftly {
+                    it.assertThat(firstValue.sender).isEqualTo(ourIdentity)
+                    it.assertThat(firstValue.receiver).isEqualTo(otherSide)
+                    it.assertThat(firstValue.msg).isEqualTo("Hello-World")
+                }
+            }
+
+            // verify command is added
+            argumentCaptor<Command<CommandData>>().apply {
+                verify(transactionBuilderMock).addCommand(capture())
+                assertThat(firstValue.value).isInstanceOf(TemplateContract.Commands.Create::class.java)
+                assertThat(firstValue.signers).contains(ourIdentity.owningKey)
+                assertThat(firstValue.signers).contains(otherSide.owningKey)
+            }
+        }
+    }
 }
