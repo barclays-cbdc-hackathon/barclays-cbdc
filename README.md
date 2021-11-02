@@ -5,14 +5,14 @@
 2. Download and install `cordapp-builder` 
 3. Download and install `corda-cli` 
 
-Step 2 - 3 can find detail instructions at [here](https://docs.r3.com/en/platform/corda/5.0-dev-preview-1/getting-started/overview.html)
+You can find detailed instructions for steps 2 - 3 at [here](https://docs.r3.com/en/platform/corda/5.0-dev-preview-1/getting-started/overview.html)
 
 ## App Functionalities 
-This app is a skeleton corda 5 cordapp. The app has a TemplateState, a TemplateStateContract, and a TemplateFlow. The flow will send a p2p transaction that carries the TemplateState to the target party. The TemplateState always carries a Hello-World String. 
+This app is a skeleton Corda 5 Cordapp. The app has a TemplateState, a TemplateStateContract, and a TemplateFlow. The flow will send a p2p transaction that carries the TemplateState to the target party. The TemplateState always carries a Hello-World String. 
 
 ## How to run the template
 
-Corda 5 re-engineering the test development experience, utilizing the dockers for test deployment. we need to follow a couple of steps to test deploy the app. 
+Corda 5 re-engineers the test development experience, utilizing Docker for test deployment. We need to follow a couple of steps to test deploy the app. 
 ```
 #1 Build the projects.
 ./gradlew clean build
@@ -23,27 +23,26 @@ cordapp-builder create --cpk contracts/build/libs/corda5-template-contracts-1.0-
 #3 Configure the network.
 corda-cli network config docker-compose template-network
 
-#4 Creating docker compose yaml file and starting docker containers.
+#4 Create a docker compose yaml file and start the docker containers.
 corda-cli network deploy -n template-network -f c5cordapp-template.yaml | docker-compose -f - up -d
     .
-    . This step will take a few mintues to complete, if you are wondering what is running behind the scene
-    . Open a new terminal and run: docker-compose -f docker-compose.yaml logs -f 
+    . This step will take a few mintues to complete. If you are wondering what is running behind the scene,
+    . open a new terminal and run: docker-compose -f docker-compose.yaml logs -f 
     
 #5 Install the cpb file into the network.
 corda-cli package install -n template-network template.cpb
 ```
-I had combined all the steps into a shell script called run.sh, you can simply call `sh ./run.sh` in your terminal and that will sequentially run step 1 to 5. 
+All the steps are combined into a shell script called run.sh - you can simply call `sh ./run.sh` in your terminal and that will sequentially run steps 1 to 5. 
 
-
-You can always look at the status of the network by the command: 
+You can always look at the status of the network with the command: 
 ```
 corda-cli network status -n template-network
 ```
-You can shut down the test network by the command: 
+You can shut down the test network with the command: 
 ```
 corda-cli network terminate -n template-network -ry
 ```
-Thus far, your app is successfully running on a corda 5 test deployment network. 
+So far, your app is successfully running on a Corda 5 test deployment network. 
 
 ## Interact with the app 
 Open a browser and go to `https://localhost:<port>/api/v1/swagger`
@@ -52,29 +51,32 @@ For this app, the ports are:
 * PartyA's node: 12112
 * PartyB's node: 12116
 
-NOTE: This information is in the status printout of the network. Use the status command that documented above. 
+NOTE: This information is in the status printout of the network. Use the status network command documented above if you want to check the ports. 
 
-The url will bring you to the swagger API interface, it is a set of HTTP API which you can use out of the box. In order to continue interacting with your app, you would need to log in now. 
+The url will bring you to the Swagger API interface. It's a set of HTTP APIs which you can use out of the box. In order to continue interacting with your app, you need to log in. 
 
-Depends on the node that you chose to go to, you would need to log into the node use the correct credentials. 
+Depending on the node that you chose to go to, you need to log into the node use the correct credentials. 
+
 For this app, the logins are: 
 * PartyA - Login: angelenos, password: password
 * PartyB - Login: londoner, password: password
 
 NOTE: This information is in the c5cordapp-template.yaml file. 
 
-Lets test if you have successfully logged in by go to the RegistedFlows 
+Let's test if you have successfully logged in by going to the RegisteredFlows:
+
 ![img.png](registeredflows.png)
 
-You should expect a 200 success callback code, and a response body of such: 
+You should see a 200 success callback code, and a response body that looks like: 
 ```
 [
   "net.corda.c5template.flows.TemplateFlow"
 ]
 ```
 
-Now, let's look at the `startflow` API, we will test our tempalteFlow with it. 
-in the request body put in: 
+Now, let's look at the `startflow` API. We will test our templateFlow with it.
+
+In the request body for `startflow` in Swagger, enter: 
 ```
 {
   "rpcStartFlowRequest": {
@@ -91,7 +93,7 @@ This request carries three pieces of information:
 2. The flow we are triggering 
 3. The flow parameters that we are providing. 
 
-After the call, you shuold expect a 200 success call code, and a response body as such: 
+After the call, you should see a 200 success call code, and a response body that looks like: 
 ```
 {
   "flowId": {
@@ -105,7 +107,8 @@ NOTE: This does not mean the transaction is passed through, it means the flow is
 You would need either go to `flowoutcomeforclientid` or `flowoutcome` to see the result of the flow. In this case, we will use the clientID to query the flow result: 
 
 Enter the clientID of our previous flow call: `launchpad-2`
-We will getting the following response: 
+
+You should see the following response: 
 ```
 {
   "status": "COMPLETED",
@@ -113,6 +116,6 @@ We will getting the following response:
   "exceptionDigest": null
 }
 ```
-The completed status of the flow means the success of the flow and its carried transaction. 
+The completed status of the flow that both the flow and its carried transaction were successful. 
 
-Thus far, we had completed a full cycle of running a flow. 
+Now we have completed a full cycle of running a flow!
