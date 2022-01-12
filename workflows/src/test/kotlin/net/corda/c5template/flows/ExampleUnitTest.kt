@@ -31,6 +31,9 @@ class ExampleUnitTest {
             createFlow { TemplateFlow(RpcStartFlowRequestParameters(inputParams)) }
 
             //Set the return value of the flow
+            doReturn(notary)
+                    .whenever(flow.notaryLookup)
+                    .getNotary(CordaX500Name.parse("O=notary, L=London, C=GB"))
             doReturn(mockNode)
                 .whenever(otherSide)
                 .name
