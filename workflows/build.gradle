@@ -87,6 +87,10 @@ dependencies {
 //    integrationTestImplementation "net.corda:corda-http-rpc-client:$cordaAPIVersion"
     integrationTestImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
     integrationTestImplementation "org.assertj:assertj-core:$assertJVersion"
+
+    cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
+    cordapp "$tokens_release_group:tokens-selection:$tokens_release_version"
+    cordapp "$tokens_release_group:tokens-tokens-builder:$tokens_release_version"
 }
 
 tasks.named('jar', Jar) {
