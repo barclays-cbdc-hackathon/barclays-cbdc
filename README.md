@@ -18,7 +18,17 @@ Corda 5 re-engineers the test development experience, utilizing Docker for test 
 ./gradlew clean build
 
 #2 Create the cpb file from the compiled cpk files in both contracts and workflows.
-cordapp-builder create --cpk contracts/build/libs/corda5-template-contracts-1.0-SNAPSHOT-cordapp.cpk --cpk workflows/build/libs/corda5-template-workflows-1.0-SNAPSHOT-cordapp.cpk -o template.cpb
+Note: builds for corda5-tokens-sdk and corda5-confidential-identities havebeen doen previously and are gracefully provided in this repo
+
+cordapp-builder create \
+--cpk contracts/build/libs/corda5-template-contracts-1.0-SNAPSHOT-cordapp.cpk \
+--cpk workflows/build/libs/corda5-template-workflows-1.0-SNAPSHOT-cordapp.cpk \
+--cpk corda5-libs/ci-workflows-2.0.0-DevPreview-1.0-cordapp.cpk \
+--cpk corda5-libs/tokens-contracts-2.0.0-DevPreview-1.0-cordapp.cpk \
+--cpk corda5-libs/tokens-selection-2.0.0-DevPreview-1.0-cordapp.cpk \
+--cpk corda5-libs/tokens-tokens-builder-2.0.0-DevPreview-1.0-cordapp.cpk \
+--cpk corda5-libs/tokens-workflows-2.0.0-DevPreview-1.0-cordapp.cpk \
+-o template.cpb
 
 #3 Configure the network.
 corda-cli network config docker-compose template-network
@@ -35,11 +45,11 @@ corda-cli package install -n template-network template.cpb
 All the steps are combined into a shell script called run.sh - you can simply call `sh ./run.sh` in your terminal and that will sequentially run steps 1 to 5. 
 
 You can always look at the status of the network with the command: 
-```
+```shell
 corda-cli network status -n template-network
 ```
 You can shut down the test network with the command: 
-```
+```shell
 corda-cli network terminate -n template-network -ry
 ```
 So far, your app is successfully running on a Corda 5 test deployment network. 
