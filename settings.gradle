@@ -26,3 +26,4 @@ rootProject.name = 'Corda5-Cordapp-Template'
 
 include('contracts')
 include('workflows')
+//include('cbdc-bridge')

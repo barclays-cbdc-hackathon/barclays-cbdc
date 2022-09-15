@@ -1,0 +1,69 @@
+plugins {
+    id 'net.corda.plugins.cordapp-cpk'
+    id 'org.jetbrains.kotlin.plugin.allopen'
+    id 'org.jetbrains.kotlin.plugin.jpa'
+}
+
+//cordapp {
+//    targetPlatformVersion 1000
+//    minimumPlatformVersion 999
+//    contract {
+//        name "Barclays CBDC Hackathon 2022 Bridge"
+//        vendor "Corda Open Source"
+//        licence "Apache License, Version 2.0"
+//        versionId 1
+//    }
+//}
+
+sourceSets {
+    main {
+        resources {
+            srcDir rootProject.file("config/dev")
+        }
+    }
+    test {
+        resources {
+            srcDir rootProject.file("config/test")
+        }
+    }
+    integrationTest {
+        kotlin {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/kotlin')
+        }
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+
+    implementation "net.corda.kotlin:kotlin-stdlib-jdk8-osgi:$kotlinVersion"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+//    cordaProvided "net.corda:corda-persistence:$cordaAPIVersion"
+//    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+//    cordaProvided "net.corda:corda-ledger:$cordaAPIVersion"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+
+
+    compile "com.github.kittinunf.fuel:fuel:$fuelVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion"
+
+}
+
+task integrationTest(type: Test, dependsOn: []) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+
+test {
+    useJUnitPlatform()
+}

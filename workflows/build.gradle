@@ -91,6 +91,11 @@ dependencies {
     cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
     cordapp "$tokens_release_group:tokens-selection:$tokens_release_version"
     cordapp "$tokens_release_group:tokens-tokens-builder:$tokens_release_version"
+
+    compile "com.github.kittinunf.fuel:fuel:$fuelVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion"
+
+//    cordapp project(':cbdc-bridge')
 }
 
 tasks.named('jar', Jar) {
