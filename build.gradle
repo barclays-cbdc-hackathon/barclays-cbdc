@@ -25,12 +25,10 @@ subprojects {
         kotlinOptions {
             allWarningsAsErrors = true
             jvmTarget = "11"
-            freeCompilerArgs += [
-                    "-Xjvm-default=all",
-                    // Prevent Kotlin from warning about kotlin.* classes inside the OSGi bundle.
-                    "-Xskip-runtime-version-check",
-                    "-java-parameters"
-            ]
+            freeCompilerArgs += ["-Xjvm-default=all",
+                                 // Prevent Kotlin from warning about kotlin.* classes inside the OSGi bundle.
+                                 "-Xskip-runtime-version-check",
+                                 "-java-parameters"]
         }
     }
 
@@ -43,11 +41,9 @@ subprojects {
 
     pluginManager.withPlugin('org.jetbrains.kotlin.plugin.allopen') {
         allOpen {
-            annotations(
-                'javax.persistence.Entity',
-                'javax.persistence.Embeddable',
-                'javax.persistence.MappedSuperclass'
-            )
+            annotations('javax.persistence.Entity',
+                    'javax.persistence.Embeddable',
+                    'javax.persistence.MappedSuperclass')
         }
     }
 }

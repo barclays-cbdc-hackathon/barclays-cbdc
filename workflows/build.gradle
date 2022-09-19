@@ -100,4 +100,7 @@ dependencies {
 
 tasks.named('jar', Jar) {
     archiveBaseName = 'corda5-template-workflows'
+    osgi {
+        exportPackage 'com.github.kittinunf.result', 'com.github.kittinunf.fuel', 'com.github.kittinunf.fuel.core'
+    }
 }
