@@ -10,8 +10,10 @@ import net.corda.v5.base.concurrent.getOrThrow
 import java.util.concurrent.Executors
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
+@Disabled
 class OpenBankingAccountInformationServiceTest {
     private val sandboxEnvService = SandboxEnvService(
         executor = Executors.newFixedThreadPool(THREADS_COUNT),

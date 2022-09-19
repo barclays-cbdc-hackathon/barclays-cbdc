@@ -18,7 +18,7 @@ Corda 5 re-engineers the test development experience, utilizing Docker for test 
 ./gradlew clean build
 
 #2 Create the cpb file from the compiled cpk files in both contracts and workflows.
-Note: builds for corda5-tokens-sdk and corda5-confidential-identities havebeen doen previously and are gracefully provided in this repo
+Note: builds for corda5-tokens-sdk and corda5-confidential-identities have been done previously and are gracefully provided in this repo
 
 cordapp-builder create \
 --cpk contracts/build/libs/corda5-template-contracts-1.0-SNAPSHOT-cordapp.cpk \

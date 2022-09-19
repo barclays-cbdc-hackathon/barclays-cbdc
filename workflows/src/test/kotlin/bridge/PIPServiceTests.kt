@@ -19,12 +19,10 @@ import com.cbdc.industria.tech.bridge.views.CommercialBankView
 import net.corda.v5.base.concurrent.getOrThrow
 import java.util.concurrent.Executors
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle
 
+@Disabled
 @TestInstance(Lifecycle.PER_CLASS)
 class PIPServiceTests {
     private val pipService = PIPService(
