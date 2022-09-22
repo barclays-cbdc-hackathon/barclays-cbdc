@@ -12,7 +12,7 @@ import java.util.concurrent.Future
 
 class EcosystemCordaService() : EcosystemService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class EcosystemService(

@@ -1,8 +1,19 @@
 package com.cbdc.industria.tech.bridge.services
 
-import com.cbdc.industria.tech.bridge.data.*
-import com.cbdc.industria.tech.bridge.views.BankingEntityAccountView
-import com.cbdc.industria.tech.bridge.views.CommercialBankView
+import com.cbdc.industria.tech.bridge.data.CreateCommercialBankRequestBody
+import com.cbdc.industria.tech.bridge.data.CreateCommercialBankResponseBody
+import com.cbdc.industria.tech.bridge.data.GetBankingEntityAccountResponseBody
+import com.cbdc.industria.tech.bridge.data.GetBankingEntityAccountsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.GetCommercialBankDetailsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.GetCommercialBankDetailsResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPartyResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPartyViewsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.MakeDepositRequestBody
+import com.cbdc.industria.tech.bridge.data.MakeWithdrawalRequestBody
+import com.cbdc.industria.tech.bridge.data.OpenAccountRequestBody
+import com.cbdc.industria.tech.bridge.data.OpenAccountResponseBody
+import com.cbdc.industria.tech.bridge.data.RegisterPartyRequestBody
+import com.cbdc.industria.tech.bridge.data.RegisterPartyResponseBody
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import net.corda.v5.application.services.CordaService
 import java.util.concurrent.CompletableFuture
@@ -10,8 +21,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
-typealias GetCommercialBankDetailsPageResponseBody = Page<CommercialBankView>
-typealias GetBankingEntityAccountsPageResponseBody = Page<BankingEntityAccountView>
 
 class CommercialBankCordaService() : CommercialBankService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
@@ -78,10 +87,10 @@ open class CommercialBankService(
         if (pageSize > MAX_PAGE_SIZE)
             throw IllegalArgumentException("pageSize must not be grater than $MAX_PAGE_SIZE.")
 
-        val future = CompletableFuture<Page<CommercialBankView>>()
+        val future = CompletableFuture<GetCommercialBankDetailsPageResponseBody>()
 
         executor.execute {
-            val result = makeGetRequest<Page<CommercialBankView>>(
+            val result = makeGetRequest<GetCommercialBankDetailsPageResponseBody>(
                 url = "$host/$COMMERCIAL_BANKS",
                 headers = mapOf(
                     AUTH_HEADER_KEY to AUTH_TOKEN,
@@ -271,10 +280,10 @@ open class CommercialBankService(
         if (pageSize > MAX_PAGE_SIZE)
             throw IllegalArgumentException("pageSize must not be grater than $MAX_PAGE_SIZE.")
 
-        val future = CompletableFuture<Page<BankingEntityAccountView>>()
+        val future = CompletableFuture<GetBankingEntityAccountsPageResponseBody>()
 
         executor.execute {
-            val result = makeGetRequest<Page<BankingEntityAccountView>>(
+            val result = makeGetRequest<GetBankingEntityAccountsPageResponseBody>(
                 url = "$host/$COMMERCIAL_BANKS/$bankId/$COMMERCIAL_BANKS_ACCOUNTS",
                 headers = mapOf(
                     AUTH_HEADER_KEY to AUTH_TOKEN,

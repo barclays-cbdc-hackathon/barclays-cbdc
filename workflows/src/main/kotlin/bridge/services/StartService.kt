@@ -1,6 +1,7 @@
 package com.cbdc.industria.tech.bridge.services
 
 import net.corda.v5.application.services.CordaService
+import net.corda.v5.base.annotations.CordaSerializable
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -17,23 +18,23 @@ open class StartService(
     private val host: String
 ) : CordaService {
 
-    fun getPublicPing(): Future<String> {
-        val future = CompletableFuture<String>()
+    fun getPublicPing(): Future<PingResponse> {
+        val future = CompletableFuture<PingResponse>()
 
         executor.execute {
-            val result = makeGetRequest<String>(url = "$host/start-here/public-ping", mapOf())
+            val result = makeGetRequest<PingResponse>(url = "$host/start-here/public-ping", mapOf())
             result.toCompletableFuture(future)
         }
 
         return future
     }
 
-    fun getAuthPing(): Future<String> {
-        val future = CompletableFuture<String>()
+    fun getAuthPing(): Future<PingResponse> {
+        val future = CompletableFuture<PingResponse>()
 
         executor.execute {
-            val result = makeGetRequest<String>(
-                url = "$host/start-here/public-ping",
+            val result = makeGetRequest<PingResponse>(
+                url = "$host/start-here/auth-ping",
                 headers = mapOf(AUTH_HEADER_KEY to AUTH_TOKEN)
             )
             result.toCompletableFuture(future)
@@ -42,3 +43,6 @@ open class StartService(
         return future
     }
 }
+
+@CordaSerializable
+data class PingResponse(val message: String)

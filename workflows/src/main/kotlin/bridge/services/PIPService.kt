@@ -11,7 +11,7 @@ import java.util.concurrent.Future
 
 class PIPCordaService() : PIPService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class PIPService(val executor: ExecutorService, val host: String) : CordaService {

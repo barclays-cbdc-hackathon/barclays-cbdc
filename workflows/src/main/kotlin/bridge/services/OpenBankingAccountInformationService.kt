@@ -11,7 +11,7 @@ import java.util.concurrent.Future
 
 class OpenBankingAccountInformationCordaService () : OpenBankingAccountInformationService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class OpenBankingAccountInformationService(

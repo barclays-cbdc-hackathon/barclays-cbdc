@@ -94,6 +94,8 @@ dependencies {
 
     compile "com.github.kittinunf.fuel:fuel:$fuelVersion"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion"
+    implementation("com.squareup.okhttp3:okhttp:4.9+")
+
 
 //    cordapp project(':cbdc-bridge')
 }
@@ -101,6 +103,6 @@ dependencies {
 tasks.named('jar', Jar) {
     archiveBaseName = 'corda5-template-workflows'
     osgi {
-        exportPackage 'com.github.kittinunf.result', 'com.github.kittinunf.fuel', 'com.github.kittinunf.fuel.core'
+        exportPackage 'com.github.kittinunf.result', 'com.github.kittinunf.fuel', 'com.github.kittinunf.fuel.core', 'com.squareup.okhttp3.okhttp'
     }
 }

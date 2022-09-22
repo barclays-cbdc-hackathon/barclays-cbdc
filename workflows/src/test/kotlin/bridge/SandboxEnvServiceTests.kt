@@ -6,29 +6,27 @@ import com.cbdc.industria.tech.bridge.services.THREADS_COUNT
 import net.corda.v5.base.concurrent.getOrThrow
 import java.util.concurrent.Executors
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
-@Disabled
+//@Disabled
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SandboxEnvServiceTests {
     private val sandboxEnvService = SandboxEnvService(
         executor = Executors.newFixedThreadPool(THREADS_COUNT),
         host = HOST_URL
     )
 
-    private var environmentId: Long = 0
-
-    @BeforeEach
-    fun setup() {
-        environmentId = sandboxEnvService.createEnvironment()
-    }
-
-    @AfterEach
-    fun tearDown() {
-        sandboxEnvService.deleteEnv(environmentId)
-    }
+    private var environmentId: Long = 581
+//
+//    @BeforeAll
+//    fun setup() {
+//        environmentId = sandboxEnvService.createEnvironment()
+//    }
+//
+//    @AfterAll
+//    fun tearDown() {
+//        sandboxEnvService.deleteEnv(environmentId)
+//    }
 
     @Test
     fun `post environment`() {
