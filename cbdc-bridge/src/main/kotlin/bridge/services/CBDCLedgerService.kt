@@ -5,14 +5,13 @@ import com.cbdc.industria.tech.bridge.data.MakeDepositRequestBody
 import com.cbdc.industria.tech.bridge.data.MakeWithdrawalRequestBody
 import com.cbdc.industria.tech.bridge.data.OpenAccountResponseBody
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import net.corda.v5.application.services.CordaService
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import net.corda.v5.application.services.CordaService
 
-
-class CBDCLedgerCordaService : CBDCLedgerService(
+class CBDCLedgerCordaService() : CBDCLedgerService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
     host = HOST_URL
 )

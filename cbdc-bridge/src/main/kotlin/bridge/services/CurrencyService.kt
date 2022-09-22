@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
+
 class CurrencyCordaService() : CurrencyService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
     host = HOST_URL

@@ -1,6 +1,10 @@
 package com.cbdc.industria.tech.bridge.services
 
-import com.cbdc.industria.tech.bridge.data.*
+import com.cbdc.industria.tech.bridge.data.CreateAccountAccessConsentResponseBody
+import com.cbdc.industria.tech.bridge.data.GetAccountAccessConsentResponseBody
+import com.cbdc.industria.tech.bridge.data.GetBankingEntityAccountResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPartyResponseBody
+import com.cbdc.industria.tech.bridge.data.OpenBankingAccountAccessConsentCreationRequestBody
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import net.corda.v5.application.services.CordaService
 import java.util.concurrent.CompletableFuture
@@ -9,9 +13,10 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 
+
 class OpenBankingAccountInformationCordaService () : OpenBankingAccountInformationService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class OpenBankingAccountInformationService(

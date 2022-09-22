@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
+
 class SandboxEnvCordaService() : SandboxEnvService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
     host = HOST_URL
@@ -17,7 +18,7 @@ class SandboxEnvCordaService() : SandboxEnvService(
 open class SandboxEnvService(
     private val executor: ExecutorService,
     private val host: String
-): CordaService {
+) : CordaService {
 
     fun getEnvs(
         pageIndex: Int = 0,

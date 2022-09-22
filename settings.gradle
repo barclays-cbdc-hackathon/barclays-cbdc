@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'Corda5-Cordapp-Template'
+rootProject.name = 'barclays-cbdc'
 
 include('contracts')
 include('workflows')

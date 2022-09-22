@@ -4,16 +4,16 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.jpa'
 }
 
-//cordapp {
-//    targetPlatformVersion 1000
-//    minimumPlatformVersion 999
-//    contract {
-//        name "Barclays CBDC Hackathon 2022 Bridge"
-//        vendor "Corda Open Source"
-//        licence "Apache License, Version 2.0"
-//        versionId 1
-//    }
-//}
+cordapp {
+    targetPlatformVersion 1000
+    minimumPlatformVersion 999
+    contract {
+        name "Barclays CBDC Hackathon 2022 Bridge"
+        vendor "Corda Open Source"
+        licence "Apache License, Version 2.0"
+        versionId 1
+    }
+}
 
 sourceSets {
     main {
@@ -45,9 +45,9 @@ dependencies {
     implementation "net.corda.kotlin:kotlin-stdlib-jdk8-osgi:$kotlinVersion"
     implementation 'com.google.code.gson:gson:2.8.6'
 
-//    cordaProvided "net.corda:corda-persistence:$cordaAPIVersion"
-//    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
-//    cordaProvided "net.corda:corda-ledger:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-persistence:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-ledger:$cordaAPIVersion"
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
     testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"

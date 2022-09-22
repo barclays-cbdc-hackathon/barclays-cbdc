@@ -1,6 +1,19 @@
 package com.cbdc.industria.tech.bridge.services
 
-import com.cbdc.industria.tech.bridge.data.*
+import com.cbdc.industria.tech.bridge.data.CreatePaymentInterfaceProviderRequestBody
+import com.cbdc.industria.tech.bridge.data.CreatePaymentInterfaceProviderResponseBody
+import com.cbdc.industria.tech.bridge.data.GetBankingEntityAccountResponseBody
+import com.cbdc.industria.tech.bridge.data.GetBankingEntityAccountsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPIPDetailsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPIPDetailsResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPartyResponseBody
+import com.cbdc.industria.tech.bridge.data.GetPartyViewsPageResponseBody
+import com.cbdc.industria.tech.bridge.data.MakeDepositRequestBody
+import com.cbdc.industria.tech.bridge.data.MakeWithdrawalRequestBody
+import com.cbdc.industria.tech.bridge.data.OpenAccountRequestBody
+import com.cbdc.industria.tech.bridge.data.OpenAccountResponseBody
+import com.cbdc.industria.tech.bridge.data.RegisterPartyRequestBody
+import com.cbdc.industria.tech.bridge.data.RegisterPartyResponseBody
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import net.corda.v5.application.services.CordaService
 import java.util.concurrent.CompletableFuture
@@ -11,7 +24,7 @@ import java.util.concurrent.Future
 
 class PIPCordaService() : PIPService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class PIPService(val executor: ExecutorService, val host: String) : CordaService {

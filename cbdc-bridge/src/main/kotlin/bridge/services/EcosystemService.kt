@@ -4,15 +4,17 @@ import com.cbdc.industria.tech.bridge.data.GetDomesticPaymentDetailsResponseBody
 import com.cbdc.industria.tech.bridge.data.MakeDomesticPaymentRequestBody
 import com.cbdc.industria.tech.bridge.data.MakeDomesticPaymentResponseBody
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import net.corda.v5.application.services.CordaService
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import net.corda.v5.base.annotations.CordaSerializable
+import net.corda.v5.application.services.CordaService
 
+@CordaSerializable
 class EcosystemCordaService() : EcosystemService(
     executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_DEFAULT
+    host = HOST_URL
 )
 
 open class EcosystemService(
