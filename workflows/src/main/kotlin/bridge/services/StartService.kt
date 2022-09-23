@@ -1,5 +1,7 @@
 package com.cbdc.industria.tech.bridge.services
 
+import net.corda.v5.application.injection.CordaFlowInjectable
+import net.corda.v5.application.injection.CordaServiceInjectable
 import net.corda.v5.application.services.CordaService
 import net.corda.v5.base.annotations.CordaSerializable
 import java.util.concurrent.CompletableFuture
@@ -16,7 +18,7 @@ class StartCordaService() : StartService(
 open class StartService(
     private val executor: ExecutorService,
     private val host: String
-) : CordaService {
+) : CordaService, CordaFlowInjectable, CordaServiceInjectable {
 
     fun getPublicPing(): Future<PingResponse> {
         val future = CompletableFuture<PingResponse>()

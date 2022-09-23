@@ -1,6 +1,9 @@
 package com.cbdc.industria.tech.flows
 
 import com.cbdc.industria.tech.bridge.services.StartCordaService
+import net.corda.v5.application.flows.Flow
+import net.corda.v5.application.flows.JsonConstructor
+import net.corda.v5.application.flows.RpcStartFlowRequestParameters
 import net.corda.v5.application.flows.StartableByRPC
 import net.corda.v5.application.injection.CordaInject
 import net.corda.v5.base.annotations.Suspendable
@@ -9,7 +12,7 @@ import net.corda.v5.legacyapi.flows.FlowLogic
 
 
 @StartableByRPC
-class CheckPings : FlowLogic<List<String>>() {
+class CheckPings @JsonConstructor constructor(private val params: RpcStartFlowRequestParameters): Flow<List<String>> {
 
     @CordaInject
     lateinit var startCordaService: StartCordaService
