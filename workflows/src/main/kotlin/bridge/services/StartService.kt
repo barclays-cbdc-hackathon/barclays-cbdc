@@ -4,23 +4,19 @@ import net.corda.v5.application.injection.CordaFlowInjectable
 import net.corda.v5.application.injection.CordaServiceInjectable
 import net.corda.v5.application.services.CordaService
 import net.corda.v5.base.annotations.CordaSerializable
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 
-class StartCordaService() : StartService(
-    executor = Executors.newFixedThreadPool(THREADS_COUNT),
-    host = HOST_URL
-)
+class StartServiceImpl : StartService {
+    override val executor: ExecutorService = Executors.newFixedThreadPool(THREADS_COUNT)
+    override val host: String = HOST_URL
 
-open class StartService(
-    private val executor: ExecutorService,
-    private val host: String
-) : CordaService, CordaFlowInjectable, CordaServiceInjectable {
-
-    fun getPublicPing(): Future<PingResponse> {
+    override fun getPublicPing(): Future<PingResponse> {
         val future = CompletableFuture<PingResponse>()
 
         executor.execute {
@@ -31,7 +27,7 @@ open class StartService(
         return future
     }
 
-    fun getAuthPing(): Future<PingResponse> {
+    override fun getAuthPing(): Future<PingResponse> {
         val future = CompletableFuture<PingResponse>()
 
         executor.execute {
@@ -44,6 +40,28 @@ open class StartService(
 
         return future
     }
+
+    override fun getHttp(): String {
+        val client = OkHttpClient()
+        val request = Request.Builder().url("${HOST_URL}/start-here/public-ping").build()
+
+        return with(client.newCall(request).execute()) {
+            this.body?.string() ?: ""
+        }
+//        return ""
+    }
+}
+
+interface StartService : CordaService, CordaFlowInjectable, CordaServiceInjectable {
+
+    val executor: ExecutorService
+    val host: String
+
+    fun getPublicPing(): Future<PingResponse>
+
+    fun getAuthPing(): Future<PingResponse>
+
+    fun getHttp(): String
 }
 
 @CordaSerializable

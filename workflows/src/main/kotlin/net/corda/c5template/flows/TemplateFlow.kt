@@ -1,5 +1,6 @@
 package net.corda.c5template.flows
 
+import com.cbdc.industria.tech.bridge.services.StartService
 import net.corda.c5template.contracts.TemplateContract
 import net.corda.c5template.states.TemplateState
 import net.corda.systemflows.CollectSignaturesFlow
@@ -11,11 +12,15 @@ import net.corda.v5.application.flows.flowservices.FlowEngine
 import net.corda.v5.application.flows.flowservices.FlowIdentity
 import net.corda.v5.application.flows.flowservices.FlowMessaging
 import net.corda.v5.application.identity.CordaX500Name
+import net.corda.v5.application.injection.CordaFlowInjectable
 import net.corda.v5.application.injection.CordaInject
+import net.corda.v5.application.injection.CordaServiceInjectable
+import net.corda.v5.application.services.CordaService
 import net.corda.v5.application.services.IdentityService
 import net.corda.v5.application.services.json.JsonMarshallingService
 import net.corda.v5.application.services.json.parseJson
 import net.corda.v5.base.annotations.Suspendable
+import net.corda.v5.base.util.contextLogger
 import net.corda.v5.ledger.contracts.Command
 import net.corda.v5.ledger.contracts.requireThat
 import net.corda.v5.ledger.services.NotaryLookupService
@@ -27,6 +32,10 @@ import net.corda.v5.ledger.transactions.TransactionBuilderFactory
 @InitiatingFlow
 @StartableByRPC
 class TemplateFlow @JsonConstructor constructor(private val params: RpcStartFlowRequestParameters) : Flow<SignedTransactionDigest> {
+
+    private companion object {
+        private val logger = contextLogger()
+    }
 
     @CordaInject
     lateinit var flowEngine: FlowEngine
@@ -42,6 +51,9 @@ class TemplateFlow @JsonConstructor constructor(private val params: RpcStartFlow
     lateinit var notaryLookup: NotaryLookupService
     @CordaInject
     lateinit var jsonMarshallingService: JsonMarshallingService
+
+    @CordaInject
+    lateinit var fooService: FooService
 
     @Suspendable
     override fun call(): SignedTransactionDigest {
@@ -97,6 +109,10 @@ class TemplateFlow @JsonConstructor constructor(private val params: RpcStartFlow
                 )
         )
 
+        logger.info("notarized transaction")
+
+        logger.warn("does FOO ? : ${fooService.canFoo()}")
+
         return SignedTransactionDigest(
                 notarisedTx.id,
                 notarisedTx.tx.outputStates.map { output -> jsonMarshallingService.formatJson(output) },
@@ -126,5 +142,23 @@ class TemplateFlowAcceptor(val otherPartySession: FlowSession) : Flow<SignedTran
         }
         val txId = flowEngine.subFlow(signTransactionFlow).id
         return flowEngine.subFlow(ReceiveFinalityFlow(otherPartySession, expectedTxId = txId))
+    }
+}
+
+
+
+interface FooService : CordaService, CordaFlowInjectable, CordaServiceInjectable {
+    fun canFoo(): Boolean
+}
+
+class FooServiceImpl : FooService {
+
+    private companion object {
+        private val logger = contextLogger()
+    }
+
+    override fun canFoo(): Boolean {
+        logger.warn("FOO !")
+        return true
     }
 }

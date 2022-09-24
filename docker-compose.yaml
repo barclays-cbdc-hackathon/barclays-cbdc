@@ -23,9 +23,10 @@ services:
     environment:
       CORDA_DEBUG_PORT: '12114'
     volumes:
-    - source: /Users/vincentjuge/.corda/template-network/docker_compose/tmp/PartyA
+    - source: /home/vincent/.corda/template-network/docker_compose/tmp/PartyA
       target: /opt/nodes/
       type: bind
+    user: 1000:1000
   PartyB-node:
     container_name: template-network-PartyB
     image: corda/corda-dev:latest
@@ -48,9 +49,10 @@ services:
     environment: &id001 {
       }
     volumes:
-    - source: /Users/vincentjuge/.corda/template-network/docker_compose/tmp/PartyB
+    - source: /home/vincent/.corda/template-network/docker_compose/tmp/PartyB
       target: /opt/nodes/
       type: bind
+    user: 1000:1000
   notary-node:
     container_name: template-network-notary
     image: corda/corda-dev:latest
@@ -73,9 +75,10 @@ services:
       notary: 'true'
     environment: *id001
     volumes:
-    - source: /Users/vincentjuge/.corda/template-network/docker_compose/tmp/notary
+    - source: /home/vincent/.corda/template-network/docker_compose/tmp/notary
       target: /opt/nodes/
       type: bind
+    user: 1000:1000
   bootstrapper:
     container_name: template-network-bootstrapper
     image: corda/corda-dev:latest
@@ -107,9 +110,10 @@ services:
     labels:
       type: bootstrapper
     volumes:
-    - source: /Users/vincentjuge/.corda/template-network/docker_compose/tmp/bootstrapper
+    - source: /home/vincent/.corda/template-network/docker_compose/tmp/bootstrapper
       target: /opt/nodes/
       type: bind
+    user: 1000:1000
 networks:
   template-network:
     name: template-network

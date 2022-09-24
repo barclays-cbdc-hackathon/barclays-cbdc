@@ -8,7 +8,7 @@ import net.corda.v5.ledger.schemas.PersistentState
 import net.corda.v5.ledger.schemas.QueryableState
 import kotlin.reflect.KProperty1
 
-class Repository() : CordaService {
+//class Repository() : CordaService {
 
 //    @CordaInject
 //    lateinit var persistenceService: PersistenceService
@@ -30,4 +30,4 @@ class Repository() : CordaService {
 //        val criteria = QueryCriteria.VaultCustomQueryCriteria(expression = expression)
 //        return serviceHub.vaultService.queryBy<S>(criteria).states
 //    }
-}
+//}
